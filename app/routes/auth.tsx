@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { usePuterStore } from '~/lib/puter'
 
 export const meta = () => {
@@ -11,15 +11,18 @@ export const meta = () => {
 
 const Auth = () => {
     const { isLoading, auth } = usePuterStore();
-    const location= useLocation();
-  
+    const location = useLocation();
+    const next = location.search.split('next=')[1];
+    const navigate = useNavigate();
 
-    useEffect(()=>{
-   
-        if(auth.isAuthenticated){
 
+
+    useEffect(() => {
+
+        if (auth.isAuthenticated) {
+            navigate(next);
         }
-    }[auth.isAuthenticated])
+    }, [auth.isAuthenticated,next])
 
 
     return (
